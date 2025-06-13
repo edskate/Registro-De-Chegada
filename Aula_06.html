@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Chegada</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #00ffff;
+    }
+
+    #clock {
+      font-size: 24px;
+      color: #00ff99;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      padding: 5px;
+      width: 90%;
+    }
+
+    .on-time {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .late {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    button {
+      padding: 6px 12px;
+      margin-top: 10px;
+      background-color: #00ffff;
+      border: none;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #00cccc;
+    }
+
+    #aviso {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #ff4444;
+      color: white;
+      display: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Registro de Chegada (09:30 – 10:30)</h1>
+  <div id="clock">Carregando horário...</div>
+
+  <form id="form-chegada">
+    <label for="nome">Nome do Aluno:</label><br>
+    <input type="text" id="nome" required>
+    <button type="submit">Registrar</button>
+  </form>
+
+  <div id="aviso">⚠️ Passou do horário de ensaio. Só será possível no próximo ensaio!</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Data</th>
+        <th>Hora do Registro</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-registros">
+    </tbody>
+  </table>
+
+  <script>
+    // Relógio em tempo real
+    function atualizarRelogio() {
+      const agora = new Date();
+      document.getElementById('clock').textContent =
+        'Hora atual: ' + agora.toLocaleTimeString('pt-BR');
+    }
+    setInterval(atualizarRelogio, 1000);
+    atualizarRelogio();
+
+    // Registro e verificação
+    document.getElementById('form-chegada').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const agora = new Date();
+
+      const hora = agora.getHours();
+      const minutos = agora.getMinutes();
+
+      const dentroHorario = (hora === 9 && minutos >= 30) || (hora === 10 && minutos < 30);
+
+      // Exibir aviso se for fora do horário
+      const aviso = document.getElementById('aviso');
+      if (!dentroHorario) {
+        aviso.style.display = 'block';
+      } else {
+        aviso.style.display = 'none';
+      }
+
+      // Adiciona no histórico, mesmo se atrasado
+      const novaLinha = document.createElement('tr');
+      novaLinha.innerHTML = `
+        <td>${nome}</td>
+        <td>${agora.toLocaleDateString('pt-BR')}</td>
+        <td>${agora.toLocaleTimeString('pt-BR')}</td>
+        <td class="${dentroHorario ? 'on-time' : 'late'}">
+          ${dentroHorario ? 'No horário' : 'Fora do horário'}
+        </td>
+      `;
+
+      document.getElementById('tabela-registros').appendChild(novaLinha);
+      document.getElementById('nome').value = '';
+    });
+  </script>
+</body>
+</html>
