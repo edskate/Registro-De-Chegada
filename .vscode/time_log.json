@@ -8,6 +8,34 @@
           "email": "edskateicevida@gmail.com"
         },
         "timeSpent": 3
+      },
+      {
+        "date": "2025-06-13T17:11:28.490Z",
+        "user": {
+          "name": "Edy_97_2024",
+          "email": "edskateicevida@gmail.com"
+        },
+        "timeSpent": 45
+      }
+    ],
+    "Aula_06.html.git": [
+      {
+        "date": "2025-06-13T17:11:50.268Z",
+        "user": {
+          "name": "Edy_97_2024",
+          "email": "edskateicevida@gmail.com"
+        },
+        "timeSpent": 21
+      }
+    ],
+    "index.html": [
+      {
+        "date": "2025-06-13T17:12:35.087Z",
+        "user": {
+          "name": "Edy_97_2024",
+          "email": "edskateicevida@gmail.com"
+        },
+        "timeSpent": 7
       }
     ]
   }
